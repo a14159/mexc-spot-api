@@ -1,0 +1,40 @@
+package io.contek.invoker.mexc.spot.api.websocket.user;
+
+import com.mxc.push.common.protobuf.PrivateDealsV3ApiOrBuilder;
+import io.contek.invoker.mexc.spot.api.websocket.WebSocketChannelId;
+import io.contek.invoker.mexc.spot.api.websocket.common.WebSocketChannelMessage;
+
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
+
+import static io.contek.invoker.mexc.spot.api.websocket.common.constants.WebSocketChannelKeys._user_orders;
+
+@ThreadSafe
+public final class UserOrdersChannel
+    extends UserWebSocketChannel<UserOrdersChannel.Message, PrivateDealsV3ApiOrBuilder> {
+
+  UserOrdersChannel(Id id) {
+    super(id);
+  }
+
+  @Override
+  public Class<Message> getMessageType() {
+    return Message.class;
+  }
+
+  @Immutable
+  public static final class Id extends WebSocketChannelId<Message> {
+
+    private Id(String value) {
+      super(value);
+    }
+
+    public static Id of() {
+      return new Id(_user_orders);
+    }
+  }
+
+  @NotThreadSafe
+  public static final class Message extends WebSocketChannelMessage<PrivateDealsV3ApiOrBuilder> {}
+}
