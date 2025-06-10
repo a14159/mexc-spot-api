@@ -6,16 +6,13 @@ import javax.annotation.concurrent.Immutable;
 public final class OrderStatusKeys {
 
 
-  public static final String _open = "open";
+  public static final String _open = "NEW";
 
-  public static final String _filled = "filled";
+  public static final String _filled = "FILLED";
 
-  public static final String _rejected = "rejected";
+  public static final String _partially_filled = "PARTIALLY_FILLED";
 
-  public static final String _cancelled = "cancelled";
+  public static final String _cancelled = "CANCELED";
 
-  public static final String _untriggered = "untriggered";
-
-  private OrderStatusKeys() {
-  }
+  public static final String _partially_cancelled = "PARTIALLY_CANCELED";
 }
