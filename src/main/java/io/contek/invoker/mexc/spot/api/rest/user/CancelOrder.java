@@ -4,7 +4,7 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.mexc.spot.api.common._PlaceOrderResponse;
+import io.contek.invoker.mexc.spot.api.common._CancelResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
@@ -81,5 +81,5 @@ public class CancelOrder extends UserRestRequest<CancelOrder.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends _PlaceOrderResponse {}
+  public static final class Response extends _CancelResponse {}
 }

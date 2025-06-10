@@ -4,36 +4,36 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.mexc.spot.api.common._CancelResponse;
+import io.contek.invoker.mexc.spot.api.common._Order;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
-import static io.contek.invoker.commons.rest.RestMethod.DELETE;
+import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public class CancelAllOrders extends UserRestRequest<CancelAllOrders.Response> {
+public class GetCurrentOrders extends UserRestRequest<GetCurrentOrders.Response> {
 
   private String symbol;
 
-  CancelAllOrders(IActor actor, RestContext context) {
+  GetCurrentOrders(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public final CancelAllOrders setSymbol(String instrument_name) {
+  public final GetCurrentOrders setSymbol(String instrument_name) {
     this.symbol = instrument_name;
     return this;
   }
 
   @Override
   protected final RestMethod getMethod() {
-    return DELETE;
+    return GET;
   }
 
   @Override
   protected String getEndpointPath() {
-    return "/api/v3/order";
+    return "/api/v3/openOrders";
   }
 
   @Override
@@ -54,5 +54,5 @@ public class CancelAllOrders extends UserRestRequest<CancelAllOrders.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends ArrayList<_CancelResponse> {}
+  public static final class Response extends ArrayList<_Order> {}
 }

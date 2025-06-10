@@ -4,36 +4,38 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
-import io.contek.invoker.mexc.spot.api.common._CancelResponse;
+import io.contek.invoker.mexc.spot.api.common._Fill;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 
-import static io.contek.invoker.commons.rest.RestMethod.DELETE;
+import static io.contek.invoker.commons.rest.RestMethod.GET;
 import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
-public class CancelAllOrders extends UserRestRequest<CancelAllOrders.Response> {
+public class GetAccountTradeList extends UserRestRequest<GetAccountTradeList.Response> {
 
   private String symbol;
+  private long startTime;
+  private long endTime;
 
-  CancelAllOrders(IActor actor, RestContext context) {
+  GetAccountTradeList(IActor actor, RestContext context) {
     super(actor, context);
   }
 
-  public final CancelAllOrders setSymbol(String instrument_name) {
+  public final GetAccountTradeList setSymbol(String instrument_name) {
     this.symbol = instrument_name;
     return this;
   }
 
   @Override
   protected final RestMethod getMethod() {
-    return DELETE;
+    return GET;
   }
 
   @Override
   protected String getEndpointPath() {
-    return "/api/v3/order";
+    return "/api/v3/myTrades";
   }
 
   @Override
@@ -42,6 +44,12 @@ public class CancelAllOrders extends UserRestRequest<CancelAllOrders.Response> {
 
     requireNonNull(symbol);
     builder.add("symbol", symbol);
+
+    if (startTime != 0)
+      builder.add("startTime", startTime);
+
+    if (endTime != 0)
+      builder.add("endTime", endTime);
 
     builder.add("timestamp", Long.toString(System.currentTimeMillis()));
 
@@ -54,5 +62,5 @@ public class CancelAllOrders extends UserRestRequest<CancelAllOrders.Response> {
   }
 
   @NotThreadSafe
-  public static final class Response extends ArrayList<_CancelResponse> {}
+  public static final class Response extends ArrayList<_Fill> {}
 }

@@ -28,6 +28,14 @@ public final class UserRestApi {
     return new CancelAllOrders(actor, context);
   }
 
+  public GetCurrentOrders getCurrentOrders() {
+    return new GetCurrentOrders(actor, context);
+  }
+
+  public GetAccountTradeList getAccountTradeList() {
+    return new GetAccountTradeList(actor, context);
+  }
+
   public PostListenKey getPostListenKey() {
     return new PostListenKey(actor, context);
   }
