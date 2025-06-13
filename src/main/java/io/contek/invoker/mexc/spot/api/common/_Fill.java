@@ -18,4 +18,6 @@ public class _Fill {
   public String isMaker;
   public String isBestMatch; // sic!
   public String isSelfTrade;
+
+  public long traceNano = System.nanoTime();
 }
