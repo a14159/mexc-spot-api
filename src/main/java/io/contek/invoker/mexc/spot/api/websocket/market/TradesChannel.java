@@ -1,6 +1,6 @@
 package io.contek.invoker.mexc.spot.api.websocket.market;
 
-import com.mxc.push.common.protobuf.PublicDealsV3ApiOrBuilder;
+import com.mxc.push.common.protobuf.PushDataV3ApiWrapperOrBuilder;
 import io.contek.invoker.mexc.spot.api.websocket.WebSocketChannelId;
 import io.contek.invoker.mexc.spot.api.websocket.common.WebSocketChannelMessage;
 
@@ -13,7 +13,7 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class TradesChannel
-    extends MarketWebSocketChannel<TradesChannel.Message, PublicDealsV3ApiOrBuilder> {
+    extends MarketWebSocketChannel<TradesChannel.Message, PushDataV3ApiWrapperOrBuilder> {
 
   TradesChannel(TradesChannel.Id id) {
     super(id);
@@ -37,6 +37,6 @@ public final class TradesChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<PublicDealsV3ApiOrBuilder> {}
+  public static final class Message extends WebSocketChannelMessage<PushDataV3ApiWrapperOrBuilder> {}
 
 }

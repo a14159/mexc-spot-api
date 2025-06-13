@@ -3,7 +3,8 @@ package io.contek.invoker.mexc.spot.api.websocket;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.mxc.push.common.protobuf.*;
+import com.mxc.push.common.protobuf.PushDataV3ApiWrapper;
+import com.mxc.push.common.protobuf.PushDataV3ApiWrapperOrBuilder;
 import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.IWebSocketComponent;
 import io.contek.invoker.commons.websocket.WebSocketBinaryMessageParser;
@@ -41,68 +42,19 @@ public final class WebSocketMessageParser extends WebSocketBinaryMessageParser {
 
   @Override
   protected AnyWebSocketMessage fromBytes(byte[] bytes) {
-      try {
-        PushDataV3ApiWrapper msg = PushDataV3ApiWrapper.parseFrom(bytes);
-        PushDataV3ApiWrapper.BodyCase bodyCase = msg.getBodyCase();
-        switch (bodyCase) {
-          case PUBLICDEALS -> {
-            WebSocketChannelMessage<PublicDealsV3ApiOrBuilder> dealsMsg = new WebSocketChannelMessage<>();
-            dealsMsg.data = msg.getPublicDeals();
-            dealsMsg.channel = msg.getChannel();
-            dealsMsg.createTime = msg.getCreateTime();
-            dealsMsg.sendTime = msg.getSendTime();
-            dealsMsg.symbol = msg.getSymbol();
-            return dealsMsg;
-          }
+    try {
+      PushDataV3ApiWrapper msg = PushDataV3ApiWrapper.parseFrom(bytes);
 
-          case PUBLICBOOKTICKER -> {
-            WebSocketChannelMessage<PublicAggreBookTickerV3ApiOrBuilder> tickerMsg = new WebSocketChannelMessage<>();
-            tickerMsg.data = msg.getPublicAggreBookTicker();
-            tickerMsg.channel = msg.getChannel();
-            tickerMsg.createTime = msg.getCreateTime();
-            tickerMsg.sendTime = msg.getSendTime();
-            tickerMsg.symbol = msg.getSymbol();
-            return tickerMsg;
-          }
+      WebSocketChannelMessage<PushDataV3ApiWrapperOrBuilder> dealsMsg = new WebSocketChannelMessage<>();
+      dealsMsg.data = msg;
+      dealsMsg.channel = msg.getChannel();
+      dealsMsg.createTime = msg.getCreateTime();
+      dealsMsg.sendTime = msg.getSendTime();
+      dealsMsg.symbol = msg.getSymbol();
+      return dealsMsg;
 
-          case PUBLICAGGREDEPTHS -> {
-            WebSocketChannelMessage<PublicAggreDepthsV3ApiOrBuilder> bookMsg = new WebSocketChannelMessage<>();
-            bookMsg.data = msg.getPublicAggreDepths();
-            bookMsg.channel = msg.getChannel();
-            bookMsg.createTime = msg.getCreateTime();
-            bookMsg.sendTime = msg.getSendTime();
-            bookMsg.symbol = msg.getSymbol();
-            return bookMsg;
-          }
-
-          case PRIVATEDEALS -> {
-            WebSocketChannelMessage<PrivateDealsV3ApiOrBuilder> dealsMsg = new WebSocketChannelMessage<>();
-            dealsMsg.data = msg.getPrivateDeals();
-            dealsMsg.channel = msg.getChannel();
-            dealsMsg.createTime = msg.getCreateTime();
-            dealsMsg.sendTime = msg.getSendTime();
-            dealsMsg.symbol = msg.getSymbol();
-            return dealsMsg;
-          }
-
-          case PRIVATEORDERS -> {
-            WebSocketChannelMessage<PrivateOrdersV3ApiOrBuilder> ordersMsg = new WebSocketChannelMessage<>();
-            ordersMsg.data = msg.getPrivateOrders();
-            ordersMsg.channel = msg.getChannel();
-            ordersMsg.createTime = msg.getCreateTime();
-            ordersMsg.sendTime = msg.getSendTime();
-            ordersMsg.symbol = msg.getSymbol();
-            return ordersMsg;
-          }
-
-          default -> {
-            log.warn("Received unknown message channel: {}, body case: {}", msg.getChannel(), msg.getBodyCase());
-          }
-        }
-      } catch (InvalidProtocolBufferException e) {
-          throw new RuntimeException(e);
-      }
-
-      return super.fromBytes(bytes);
+    } catch (InvalidProtocolBufferException e) {
+        throw new RuntimeException(e);
+    }
   }
 }

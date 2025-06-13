@@ -1,6 +1,6 @@
 package io.contek.invoker.mexc.spot.api.websocket.market;
 
-import com.mxc.push.common.protobuf.PublicAggreDepthsV3ApiOrBuilder;
+import com.mxc.push.common.protobuf.PushDataV3ApiWrapperOrBuilder;
 import io.contek.invoker.mexc.spot.api.websocket.WebSocketChannelId;
 import io.contek.invoker.mexc.spot.api.websocket.common.WebSocketChannelMessage;
 
@@ -13,7 +13,7 @@ import static java.lang.String.format;
 
 @ThreadSafe
 public final class BookSnapshotChannel
-    extends MarketWebSocketChannel<BookSnapshotChannel.Message, PublicAggreDepthsV3ApiOrBuilder> {
+    extends MarketWebSocketChannel<BookSnapshotChannel.Message, PushDataV3ApiWrapperOrBuilder> {
 
   BookSnapshotChannel(Id id) {
     super(id);
@@ -37,6 +37,6 @@ public final class BookSnapshotChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<PublicAggreDepthsV3ApiOrBuilder> {}
+  public static final class Message extends WebSocketChannelMessage<PushDataV3ApiWrapperOrBuilder> {}
 
 }

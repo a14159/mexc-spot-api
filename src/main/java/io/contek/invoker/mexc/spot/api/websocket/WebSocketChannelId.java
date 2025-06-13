@@ -13,12 +13,8 @@ public abstract class WebSocketChannelId<Message extends WebSocketChannelMessage
     super(channel);
   }
 
-  public final String getChannel() {
-    return getValue();
-  }
-
   @Override
   public final boolean accepts(Message message) {
-    return getChannel().equals(message.channel);
+    return getValue().equals(message.channel);
   }
 }

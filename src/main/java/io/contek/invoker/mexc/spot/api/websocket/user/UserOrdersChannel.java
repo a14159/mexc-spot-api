@@ -1,6 +1,6 @@
 package io.contek.invoker.mexc.spot.api.websocket.user;
 
-import com.mxc.push.common.protobuf.PrivateDealsV3ApiOrBuilder;
+import com.mxc.push.common.protobuf.PushDataV3ApiWrapperOrBuilder;
 import io.contek.invoker.mexc.spot.api.websocket.WebSocketChannelId;
 import io.contek.invoker.mexc.spot.api.websocket.common.WebSocketChannelMessage;
 
@@ -12,7 +12,7 @@ import static io.contek.invoker.mexc.spot.api.websocket.common.constants.WebSock
 
 @ThreadSafe
 public final class UserOrdersChannel
-    extends UserWebSocketChannel<UserOrdersChannel.Message, PrivateDealsV3ApiOrBuilder> {
+    extends UserWebSocketChannel<UserOrdersChannel.Message, PushDataV3ApiWrapperOrBuilder> {
 
   UserOrdersChannel(Id id) {
     super(id);
@@ -36,5 +36,5 @@ public final class UserOrdersChannel
   }
 
   @NotThreadSafe
-  public static final class Message extends WebSocketChannelMessage<PrivateDealsV3ApiOrBuilder> {}
+  public static final class Message extends WebSocketChannelMessage<PushDataV3ApiWrapperOrBuilder> {}
 }

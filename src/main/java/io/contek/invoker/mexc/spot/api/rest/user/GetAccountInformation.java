@@ -5,13 +5,10 @@ import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestMethod;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.mexc.spot.api.common._AccountInfo;
-import io.contek.invoker.mexc.spot.api.common._Fill;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.ArrayList;
 
 import static io.contek.invoker.commons.rest.RestMethod.GET;
-import static java.util.Objects.requireNonNull;
 
 @NotThreadSafe
 public class GetAccountInformation extends UserRestRequest<GetAccountInformation.Response> {
