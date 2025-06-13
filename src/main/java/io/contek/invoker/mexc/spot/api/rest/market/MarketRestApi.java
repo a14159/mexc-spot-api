@@ -31,4 +31,8 @@ public final class MarketRestApi {
   public GetTicker getTicker() {
     return new GetTicker(actor, context);
   }
+
+  public Get24hTicker get24hTicker() {
+    return new Get24hTicker(actor, context);
+  }
 }
