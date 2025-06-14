@@ -16,6 +16,7 @@ import static java.util.Objects.requireNonNull;
 public class GetAccountTradeList extends UserRestRequest<GetAccountTradeList.Response> {
 
   private String symbol;
+  private String orderId;
   private long startTime;
   private long endTime;
 
@@ -25,6 +26,21 @@ public class GetAccountTradeList extends UserRestRequest<GetAccountTradeList.Res
 
   public final GetAccountTradeList setSymbol(String instrument_name) {
     this.symbol = instrument_name;
+    return this;
+  }
+
+  public final GetAccountTradeList setOrderId(String orderId) {
+    this.orderId = orderId;
+    return this;
+  }
+
+  public final GetAccountTradeList setStartTime(long startTime) {
+    this.startTime = startTime;
+    return this;
+  }
+
+  public final GetAccountTradeList setEndTime(long endTime) {
+    this.endTime = endTime;
     return this;
   }
 
@@ -44,6 +60,9 @@ public class GetAccountTradeList extends UserRestRequest<GetAccountTradeList.Res
 
     requireNonNull(symbol);
     builder.add("symbol", symbol);
+
+    if (orderId != null)
+      builder.add("orderId", orderId);
 
     if (startTime != 0)
       builder.add("startTime", startTime);
