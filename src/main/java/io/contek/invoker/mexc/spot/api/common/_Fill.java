@@ -13,7 +13,7 @@ public class _Fill {
   public String qty;
   public String commission;
   public String commissionAsset;
-  public String time;
+  public long time;
   public boolean isBuyer;
   public boolean isMaker;
   public String isBestMatch; // sic!
