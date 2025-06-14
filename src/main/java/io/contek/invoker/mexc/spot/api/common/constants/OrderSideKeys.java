@@ -3,7 +3,7 @@ package io.contek.invoker.mexc.spot.api.common.constants;
 import javax.annotation.concurrent.Immutable;
 
 @Immutable
-public final class SideKeys {
+public final class OrderSideKeys {
 
   public static final String _buy = "BUY";
 
