@@ -14,8 +14,8 @@ public class _Fill {
   public String commission;
   public String commissionAsset;
   public String time;
-  public String isBuyer;
-  public String isMaker;
+  public boolean isBuyer;
+  public boolean isMaker;
   public String isBestMatch; // sic!
   public String isSelfTrade;
 
