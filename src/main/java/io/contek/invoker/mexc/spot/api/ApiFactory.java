@@ -34,7 +34,7 @@ public final class ApiFactory {
 
   public static final ApiContext TEST_NET_CONTEXT =
       ApiContext.newBuilder()
-          .setRestContext(RestContext.forBaseUrl("https://test.mexc.com"))
+          .setRestContext(RestContext.forBaseUrl("https://api.mexc.com"))
           .setWebSocketContext(WebSocketContext.forBaseUrl("ws://wbs-api.mexc.com"))
           .build();
 
