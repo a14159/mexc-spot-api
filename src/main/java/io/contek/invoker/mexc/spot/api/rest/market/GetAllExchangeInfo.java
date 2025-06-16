@@ -3,6 +3,7 @@ package io.contek.invoker.mexc.spot.api.rest.market;
 import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
+import io.contek.invoker.mexc.spot.api.common._AllInstruments;
 import io.contek.invoker.mexc.spot.api.common._Instrument;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -31,5 +32,5 @@ public final class GetAllExchangeInfo extends MarketRestRequest<GetAllExchangeIn
   }
 
   @NotThreadSafe
-  public static final class Response extends ArrayList<_Instrument> {}
+  public static final class Response extends _AllInstruments {}
 }
