@@ -4,10 +4,8 @@ import io.contek.invoker.commons.actor.IActor;
 import io.contek.invoker.commons.rest.RestContext;
 import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.mexc.spot.api.common._AllInstruments;
-import io.contek.invoker.mexc.spot.api.common._Instrument;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.ArrayList;
 
 @NotThreadSafe
 public final class GetAllExchangeInfo extends MarketRestRequest<GetAllExchangeInfo.Response> {
