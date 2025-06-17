@@ -106,7 +106,9 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
       return Map.of();
     }
 
-    return Map.of("X-MEXC-APIKEY", credential.getApiKeyId());
+    return Map.of(
+            "X-MEXC-APIKEY", credential.getApiKeyId(),
+            "Content-Type", "application/json");
   }
 
   private String buildParamsString() {
