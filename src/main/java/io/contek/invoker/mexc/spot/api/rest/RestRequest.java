@@ -6,6 +6,8 @@ import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 import is.fm.util.Escaper;
 import is.fm.util.Escapers;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Clock;
@@ -17,6 +19,7 @@ import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   private static final Escaper urlPathSegmentEscaper = Escapers.urlPathSegmentEscaper();
+  private static final Logger log = LogManager.getLogger(RestRequest.class);
   private final RestContext context;
   private final Clock clock;
 
@@ -39,22 +42,26 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
       case GET, DELETE -> {
           String paramsString = buildParamsString();
           if (!credential.isAnonymous()) {
-            String timestamp = Long.toString(clock.millis());
             StringBuilder sb = new StringBuilder(128);
             sb.append(paramsString);
-            if (paramsString.isEmpty()) {
-              sb.append("?");
-            } else {
-              sb.append("&");
-            }
-            sb.append("timestamp=");
-            sb.append(timestamp);
+            String toSign = paramsString;
+            // if no timestamp param append it
+            if (paramsString.lastIndexOf("timestamp") < 0) {
+              String timestamp = Long.toString(clock.millis());
 
-            String partialParams = sb.toString();
-            String signature = credential.sign(partialParams);
+              if (paramsString.isEmpty()) {
+                sb.append("?");
+              } else {
+                sb.append("&");
+              }
+              sb.append("timestamp=");
+              sb.append(timestamp);
+              toSign = sb.toString();
+            }
+            String signature = credential.sign(toSign.substring(1)); // remove "?" at the beginning
             sb.append("&signature=");
             sb.append(signature);
-            paramsString += sb.toString();
+            paramsString = sb.toString();
           }
           return RestCall.newBuilder()
             .setUrl(buildUrlString(paramsString))
