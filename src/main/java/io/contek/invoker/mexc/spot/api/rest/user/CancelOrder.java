@@ -72,6 +72,8 @@ public class CancelOrder extends UserRestRequest<CancelOrder.Response> {
       builder.add("newClientOrderId", newClientOrderId);
     }
 
+    builder.add("timestamp", Long.toString(System.currentTimeMillis()));
+
     return builder.build();
   }
 
