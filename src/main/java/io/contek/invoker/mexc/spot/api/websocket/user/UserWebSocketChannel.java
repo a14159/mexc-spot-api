@@ -11,7 +11,7 @@ public abstract class UserWebSocketChannel<Message extends WebSocketChannelMessa
     extends WebSocketChannel<Message, Data> {
 
   UserWebSocketChannel(WebSocketChannelId<Message> id) {
-    super(id, "private");
+    super(id);
   }
 
   @Override

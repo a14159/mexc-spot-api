@@ -4,10 +4,11 @@ import io.contek.invoker.commons.websocket.AnyWebSocketMessage;
 import io.contek.invoker.commons.websocket.BaseWebSocketChannel;
 import io.contek.invoker.commons.websocket.SubscriptionState;
 import io.contek.invoker.commons.websocket.WebSocketSession;
-import io.contek.invoker.mexc.spot.api.websocket.common.SubscriptionParams;
 import io.contek.invoker.mexc.spot.api.websocket.common.WebSocketChannelMessage;
 import io.contek.invoker.mexc.spot.api.websocket.common.WebSocketRequest;
 import io.contek.invoker.mexc.spot.api.websocket.common.WebSocketSubscriptionResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -22,14 +23,12 @@ import static io.contek.invoker.mexc.spot.api.websocket.common.constants.WebSock
 public abstract class WebSocketChannel<Message extends WebSocketChannelMessage<Data>, Data>
     extends BaseWebSocketChannel<WebSocketChannelId<Message>, Message, Data> {
 
-  private final String scope;
+  private static final Logger log = LogManager.getLogger(WebSocketChannel.class);
 
-  private final AtomicReference<WebSocketRequest<SubscriptionParams>> pendingRequestHolder =
-      new AtomicReference<>();
+  private final AtomicReference<WebSocketRequest> pendingRequestHolder = new AtomicReference<>();
 
-  protected WebSocketChannel(WebSocketChannelId<Message> id, String scope) {
+  protected WebSocketChannel(WebSocketChannelId<Message> id) {
     super(id);
-    this.scope = scope;
   }
 
   @Override
@@ -45,12 +44,10 @@ public abstract class WebSocketChannel<Message extends WebSocketChannelMessage<D
       }
 
       WebSocketChannelId<Message> id = getId();
-      SubscriptionParams params = new SubscriptionParams();
-      params.params = List.of(id.getValue());
 
-      WebSocketRequest<SubscriptionParams> request = new WebSocketRequest<>();
+      WebSocketRequest request = new WebSocketRequest();
       request.method = getSubscribeMethod();
-      request.params = params;
+      request.params = List.of(id.getValue());
       session.send(request);
       pendingRequestHolder.set(request);
     }
@@ -65,12 +62,10 @@ public abstract class WebSocketChannel<Message extends WebSocketChannelMessage<D
       }
 
       WebSocketChannelId<Message> id = getId();
-      SubscriptionParams params = new SubscriptionParams();
-      params.params = List.of(id.getValue());
 
-      WebSocketRequest<SubscriptionParams> request = new WebSocketRequest<>();
+      WebSocketRequest request = new WebSocketRequest();
       request.method = getUnsubscribeMethod();
-      request.params = params;
+      request.params = List.of(id.getValue());
       session.send(request);
       pendingRequestHolder.set(request);
     }
@@ -85,13 +80,15 @@ public abstract class WebSocketChannel<Message extends WebSocketChannelMessage<D
       return null;
     }
 
+    log.debug("Receiving subscription response for channel: {}", confirmation.msg);
+
     synchronized (pendingRequestHolder) {
-      WebSocketRequest<SubscriptionParams> command = pendingRequestHolder.get();
+      WebSocketRequest command = pendingRequestHolder.get();
       if (command == null) {
         return null;
       }
 
-      if (confirmation.code != 0 || command.params.params.getFirst().equals(confirmation.msg)) {
+      if (confirmation.code != 0 || !command.params.getFirst().equals(confirmation.msg)) {
         return null;
       }
 
@@ -114,10 +111,10 @@ public abstract class WebSocketChannel<Message extends WebSocketChannelMessage<D
   }
 
   private String getSubscribeMethod() {
-    return scope + '/' + _subscribe;
+    return _subscribe;
   }
 
   private String getUnsubscribeMethod() {
-    return scope + '/' + _unsubscribe;
+    return _unsubscribe;
   }
 }

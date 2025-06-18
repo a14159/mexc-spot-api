@@ -11,6 +11,10 @@ import io.contek.invoker.commons.websocket.WebSocketBinaryMessageParser;
 import io.contek.invoker.mexc.spot.api.websocket.common.WebSocketChannelMessage;
 import io.contek.invoker.mexc.spot.api.websocket.common.WebSocketPongResponse;
 import io.contek.invoker.mexc.spot.api.websocket.common.WebSocketSubscriptionResponse;
+import io.contek.invoker.mexc.spot.api.websocket.market.TickerChannel;
+import io.contek.invoker.mexc.spot.api.websocket.market.TradesChannel;
+import io.contek.invoker.mexc.spot.api.websocket.user.UserOrdersChannel;
+import io.contek.invoker.mexc.spot.api.websocket.user.UserTradesChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,7 +36,7 @@ public final class WebSocketMessageParser extends WebSocketBinaryMessageParser {
         return obj.toJavaObject(WebSocketPongResponse.class);
       }
 
-      if (obj.containsKey("code") && obj.get("code").equals("0")) {
+      if (obj.containsKey("code") && obj.getIntValue("code") == 0) {
         return obj.toJavaObject(WebSocketSubscriptionResponse.class);
       }
     }
@@ -45,7 +49,7 @@ public final class WebSocketMessageParser extends WebSocketBinaryMessageParser {
     try {
       PushDataV3ApiWrapper msg = PushDataV3ApiWrapper.parseFrom(bytes);
 
-      WebSocketChannelMessage<PushDataV3ApiWrapperOrBuilder> dealsMsg = new WebSocketChannelMessage<>();
+      WebSocketChannelMessage<PushDataV3ApiWrapperOrBuilder> dealsMsg = createObject(msg.getBodyCase());
       dealsMsg.data = msg;
       dealsMsg.channel = msg.getChannel();
       dealsMsg.createTime = msg.getCreateTime();
@@ -56,5 +60,16 @@ public final class WebSocketMessageParser extends WebSocketBinaryMessageParser {
     } catch (InvalidProtocolBufferException e) {
         throw new RuntimeException(e);
     }
+  }
+
+  private static WebSocketChannelMessage<PushDataV3ApiWrapperOrBuilder> createObject(PushDataV3ApiWrapper.BodyCase bodyCase) {
+    return switch (bodyCase) {
+      case PUBLICAGGREBOOKTICKER -> new TickerChannel.Message();
+      case PUBLICDEALS -> new TradesChannel.Message();
+      case PRIVATEDEALS -> new UserTradesChannel.Message();
+      case PRIVATEORDERS -> new UserOrdersChannel.Message();
+
+      default -> new WebSocketChannelMessage<>();
+    };
   }
 }
