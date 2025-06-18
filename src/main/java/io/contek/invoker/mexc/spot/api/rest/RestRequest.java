@@ -6,8 +6,6 @@ import io.contek.invoker.commons.rest.*;
 import io.contek.invoker.security.ICredential;
 import is.fm.util.Escaper;
 import is.fm.util.Escapers;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.time.Clock;
@@ -19,7 +17,6 @@ import static io.contek.invoker.commons.rest.RestMediaType.JSON;
 public abstract class RestRequest<R> extends BaseRestRequest<R> {
 
   private static final Escaper urlPathSegmentEscaper = Escapers.urlPathSegmentEscaper();
-  private static final Logger log = LogManager.getLogger(RestRequest.class);
   private final RestContext context;
   private final Clock clock;
 
