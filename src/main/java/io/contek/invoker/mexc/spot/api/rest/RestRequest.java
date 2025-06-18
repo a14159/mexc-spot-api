@@ -71,7 +71,6 @@ public abstract class RestRequest<R> extends BaseRestRequest<R> {
       }
       case POST, PUT -> {
           RestMediaBody body = JSON.createBody(getParams());
-          log.info("Creating POST/PUT request with body: {}",body.getStringValue());
           String params = "";
           if (!credential.isAnonymous()) {
             String timestamp = Long.toString(clock.millis());
