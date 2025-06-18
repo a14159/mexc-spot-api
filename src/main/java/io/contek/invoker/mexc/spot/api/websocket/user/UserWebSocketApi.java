@@ -30,7 +30,7 @@ public final class UserWebSocketApi extends BaseWebSocketApi {
   protected WebSocketCall createCall(ICredential credential) {
     UserWebSocketLiveKeeper liveKeeper = (UserWebSocketLiveKeeper) getLiveKeeper();
     String listenKey = liveKeeper.init();
-    return WebSocketCall.fromUrl(context.getBaseUrl() + "/ws?" + listenKey);
+    return WebSocketCall.fromUrl(context.getBaseUrl() + "/ws?listenKey=" + listenKey);
   }
 
   @Override

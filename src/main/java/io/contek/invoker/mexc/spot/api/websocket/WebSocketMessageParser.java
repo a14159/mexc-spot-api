@@ -31,6 +31,8 @@ public final class WebSocketMessageParser extends WebSocketBinaryMessageParser {
   @Override
   protected AnyWebSocketMessage fromText(String text) {
     JSONObject obj = JSON.parseObject(text);
+    if (obj.containsKey("error"))
+      log.warn("WS message contains 'error' field: {}", text);
     if (obj.containsKey("msg")) {
       if ("PONG".equals(obj.get("msg").toString())) {
         return obj.toJavaObject(WebSocketPongResponse.class);
