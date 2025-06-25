@@ -80,8 +80,6 @@ public abstract class WebSocketChannel<Message extends WebSocketChannelMessage<D
       return null;
     }
 
-    log.debug("Receiving subscription response for channel: {}", confirmation.msg);
-
     synchronized (pendingRequestHolder) {
       WebSocketRequest command = pendingRequestHolder.get();
       if (command == null) {
