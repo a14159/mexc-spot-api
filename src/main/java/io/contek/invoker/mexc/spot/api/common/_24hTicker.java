@@ -1,7 +1,6 @@
 package io.contek.invoker.mexc.spot.api.common;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.math.Double;
 
 @NotThreadSafe
 public class _24hTicker {
