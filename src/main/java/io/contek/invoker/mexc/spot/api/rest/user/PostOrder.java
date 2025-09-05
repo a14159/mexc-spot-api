@@ -7,7 +7,6 @@ import io.contek.invoker.commons.rest.RestParams;
 import io.contek.invoker.mexc.spot.api.common._OrderResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.math.BigDecimal;
 
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 import static java.util.Objects.requireNonNull;
@@ -18,9 +17,9 @@ public class PostOrder extends UserRestRequest<PostOrder.Response> {
   private String symbol;
   private String side;
   private String type;
-  private BigDecimal quantity;
+  private String quantity;
   private String newClientOrderId;
-  private BigDecimal price;
+  private String price;
 
   PostOrder(IActor actor, RestContext context) {
     super(actor, context);
@@ -41,12 +40,12 @@ public class PostOrder extends UserRestRequest<PostOrder.Response> {
     return this;
   }
 
-  public final PostOrder setQuantity(BigDecimal quantity) {
+  public final PostOrder setQuantity(String quantity) {
     this.quantity = quantity;
     return this;
   }
 
-  public final PostOrder setPrice(BigDecimal price) {
+  public final PostOrder setPrice(String price) {
     this.price = price;
     return this;
   }
@@ -77,13 +76,13 @@ public class PostOrder extends UserRestRequest<PostOrder.Response> {
     builder.add("side", side);
 
     requireNonNull(quantity);
-    builder.add("quantity", quantity.toPlainString());
+    builder.add("quantity", quantity);
 
     requireNonNull(type);
     builder.add("type", type);
 
     if (price != null) {
-      builder.add("price", price.toPlainString());
+      builder.add("price", price);
     }
 
     if (newClientOrderId != null) {

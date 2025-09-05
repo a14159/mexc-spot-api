@@ -1,7 +1,7 @@
 package io.contek.invoker.mexc.spot.api.common;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.math.BigDecimal;
+import java.math.Double;
 
 @NotThreadSafe
 public class _Instrument {
@@ -16,8 +16,8 @@ public class _Instrument {
   public boolean isSpotTradingAllowed;
   public boolean isMarginTradingAllowed;
 
-  public BigDecimal makerCommission;
-  public BigDecimal takerCommission;
-  public BigDecimal quoteAmountPrecision;
-  public BigDecimal baseSizePrecision;
+  public Double makerCommission;
+  public Double takerCommission;
+  public Double quoteAmountPrecision;
+  public Double baseSizePrecision;
 }

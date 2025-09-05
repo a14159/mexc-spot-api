@@ -1,7 +1,7 @@
 package io.contek.invoker.mexc.spot.api.common;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.math.BigDecimal;
+import java.math.Double;
 
 @NotThreadSafe
 public class _24hTicker {
@@ -25,7 +25,7 @@ public class _24hTicker {
 
   public String symbol;
 
-  public BigDecimal lastPrice;
-  public BigDecimal volume;
-  public BigDecimal quoteVolume;
+  public Double lastPrice;
+  public Double volume;
+  public Double quoteVolume;
 }
